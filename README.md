@@ -29,9 +29,36 @@ Code to transform your GeoJSON files into XML format.
    > ⚠️ **Warning:**  
    > After installing the package, restart your IDE and activate the environment again using `conda activate GeoJSON2XML` to ensure all the dependencies are properly loaded.
 
+## ⚙️ How to Use
+
+1. **Prepare Your GeoJSON Files**:  
+   Place all the GeoJSON files you want to convert into a single folder. This ensures consistent label ordering across all files.
+
+2. **Run the Jupyter Notebook**:  
+   Open the `GeoJSON2XML.ipynb` notebook in your Jupyter environment. Follow these steps:
+
+   - Import the required module:
+     ```python
+     from base import *
+     ```
+   - Set the path to your folder containing GeoJSON files:
+     ```python
+     folder_path = r'path to GeoJSON files'
+     ```
+   - Run the conversion:
+     ```python
+     GeoJSON2XML(folder_path)
+     ```
+
+   This will process all GeoJSON files in the specified folder and generate corresponding XML files.
+
+3. **Check the Output**:  
+   The XML files will be saved in the same folder as the input GeoJSON files, with the `.xml` extension.
+
 ## ⚠️ Important Warnings
 
 1. **Consistent Layer Order**:  
    To ensure that the generated XML files maintain the same order of layers, **all GeoJSON files that are to be converted must be placed in the same folder**. This guarantees consistent label ordering across all files.
 
 Happy converting! 🎉
+
