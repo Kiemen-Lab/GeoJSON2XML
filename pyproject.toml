@@ -7,7 +7,7 @@ name = "geojson2xml"
 version = "0.1.0"
 description = "A tool to convert GeoJSON files to ImageScope-compatible XML files."
 readme = "README.md"
-license = {file = "LICENSE.txt" }
+license = {file = "LICENSE" }
 
 authors = [
     { name = "Valentina Matos-Romero", email = "vmatosr1@jh.edu" },
@@ -24,10 +24,11 @@ keywords = ["medical imaging", "image labeling", "machine learning", "deep learn
 dependencies = [
     "xmltodict>=0.13.0",
     "jsonschema>=4.17.3",
-    "numpy>=1.21.0"
+    "numpy>=1.21.0",
+    "notebook>=6.0.0"
 ]
 
-requires-python = "^3.8"
+requires-python = ">=3.8"
 
 [project.urls]
 Homepage = "https://github.com/Valentinamatos/GeoJSON2XML"
