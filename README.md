@@ -35,7 +35,7 @@ Code to transform your GeoJSON files into XML format.
    Place all the GeoJSON files you want to convert into a single folder. This ensures consistent label ordering across all files.
 
 2. **Run the Jupyter Notebook**:  
-   Open the `GeoJSON2XML.ipynb` notebook in your Jupyter environment. Follow these steps:
+   Open the `GeoJSON2XML.ipynb` notebook in your Jupyter environment. Run the following cells:
 
    - Import the required module:
      ```python
