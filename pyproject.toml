@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "geojson2xml"
+version = "0.1.0"
+description = "A tool to convert GeoJSON files to ImageScope-compatible XML files."
+readme = "README.md"
+license = {file = "LICENSE.txt" }
+
+authors = [
+    { name = "Valentina Matos-Romero", email = "vmatosr1@jh.edu" },
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+]
+
+keywords = ["medical imaging", "image labeling", "machine learning", "deep learning", "tissue labeling"]
+
+dependencies = [
+    "xmltodict>=0.13.0",
+    "jsonschema>=4.17.3",
+    "numpy>=1.21.0"
+]
+
+requires-python = "^3.8"
+
+[project.urls]
+Homepage = "https://github.com/Valentinamatos/GeoJSON2XML"
+Documentation = "https://github.com/Valentinamatos/GeoJSON2XML#readme"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+include = ["*.ipynb"]
+
+[project.scripts]
+CODAvision = "GeoJSON2XML:main"
