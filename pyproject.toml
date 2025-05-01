@@ -11,6 +11,7 @@ license = {file = "LICENSE" }
 
 authors = [
     { name = "Valentina Matos-Romero", email = "vmatosr1@jh.edu" },
+    { name = "Ashley Kiemen", email = "kiemen@jhmi.edu" }
 ]
 
 classifiers = [
@@ -31,8 +32,8 @@ dependencies = [
 requires-python = ">=3.8"
 
 [project.urls]
-Homepage = "https://github.com/Valentinamatos/GeoJSON2XML"
-Documentation = "https://github.com/Valentinamatos/GeoJSON2XML#readme"
+Homepage = "https://github.com/Kiemen-Lab/GeoJSON2XML"
+Documentation = "https://github.com/Kiemen-Lab/GeoJSON2XML#readme"
 
 [tool.hatch.metadata]
 allow-direct-references = true
