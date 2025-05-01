@@ -35,4 +35,3 @@ Code to transform your GeoJSON files into XML format.
    To ensure that the generated XML files maintain the same order of layers, **all GeoJSON files that are to be converted must be placed in the same folder**. This guarantees consistent label ordering across all files.
 
 Happy converting! 🎉
-```
