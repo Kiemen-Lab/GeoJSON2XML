@@ -45,9 +45,13 @@ Code to transform your GeoJSON files into XML format.
      ```python
      folder_path = r'path to GeoJSON files'
      ```
+   - Set the microns_per_pixel value
+     ```python
+     microns_per_pixel = "0.460100"
+     ```
    - Run the conversion:
      ```python
-     GeoJSON2XML(folder_path)
+     GeoJSON2XML(folder_path, microns_per_pixel)
      ```
 
    This will process all GeoJSON files in the specified folder and generate corresponding XML files.
