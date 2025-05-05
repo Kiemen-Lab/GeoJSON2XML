@@ -47,7 +47,7 @@ Code to transform your GeoJSON files into XML format.
      ```
    - Set the microns_per_pixel value
      ```python
-     microns_per_pixel = "0.460100"
+     microns_per_pixel = "0.460100" #example 
      ```
    - Run the conversion:
      ```python
