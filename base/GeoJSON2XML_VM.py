@@ -10,7 +10,7 @@ from xml.dom import minidom
 from collections import OrderedDict
 
 # Constants for XML generation
-MICRONS_PER_PIXEL = "0.460100"
+# MICRONS_PER_PIXEL = "0.460100"
 
 DEFAULT_METADATA = {
     "ReadOnly": "0",
@@ -105,10 +105,15 @@ def collect_all_labels_from_folder(folder_path):
     return sorted(list(all_labels))
 
 
-def convert_geojson_to_imagescope_xml(geojson_path, label_order):
+def convert_geojson_to_imagescope_xml(geojson_path, label_order, microns_per_pixel):
     """
     Converts a GeoJSON file into an ImageScope-compatible XML string.
     Uses provided label_order to maintain consistent ordering.
+
+    Args:
+        geojson_path (str): Path to the GeoJSON file.
+        label_order (list): List of labels in the desired order.
+        microns_per_pixel (str): Microns per pixel value for XML generation.
     """
     with open(geojson_path, 'r', encoding='utf-8') as f:
         geojson_data = json.load(f)
@@ -122,14 +127,7 @@ def convert_geojson_to_imagescope_xml(geojson_path, label_order):
         raise ValueError("Unsupported GeoJSON format.")
 
     # Use OrderedDict to maintain order
-    annotations_by_name = OrderedDict()
-
-    # Initialize all possible labels from the master list
-    for label in label_order:
-        annotations_by_name[label] = {
-            "color": None,  # Will be set when we encounter this label
-            "regions": []
-        }
+    annotations_by_name = OrderedDict((label, {"color": None, "regions": []}) for label in label_order)
 
     # Process features
     for feature in features:
@@ -163,26 +161,24 @@ def convert_geojson_to_imagescope_xml(geojson_path, label_order):
                         poly[0].append(poly[0][0])
                     annotations_by_name[name]["regions"].append(poly[0])
 
-    # Remove empty labels and set default color for unused labels
-    for name in list(annotations_by_name.keys()):
-        if not annotations_by_name[name]["regions"]:
-            del annotations_by_name[name]
-        elif annotations_by_name[name]["color"] is None:
-            annotations_by_name[name]["color"] = DEFAULT_METADATA["LineColor"]
+    # Assign default color to unused labels (but retain them)
+    for name, data in annotations_by_name.items():
+        if data["color"] is None:
+            data["color"] = DEFAULT_METADATA["LineColor"]
 
-    # Set up XML structure
-    annotations_element = ET.Element("Annotations", {"MicronsPerPixel": MICRONS_PER_PIXEL})
+    # Build XML
+    annotations_element = ET.Element("Annotations", {"MicronsPerPixel": microns_per_pixel})
 
     annotation_id = 1
     region_id = 1
     for name, data in annotations_by_name.items():
-        # Create annotation with default metadata
+        # Create annotation element with correct defaults (matches ImageScope)
         annotation_metadata = DEFAULT_METADATA.copy()
         annotation_metadata.update({
             "Id": str(annotation_id),
             "Name": name,
             "LineColor": data["color"],
-            "Selected": "1",  # Selected for annotations
+            "Selected": "0"
         })
 
         annotation = ET.SubElement(annotations_element, "Annotation", annotation_metadata)
@@ -192,7 +188,7 @@ def convert_geojson_to_imagescope_xml(geojson_path, label_order):
         for attr in ANNOTATIONS_ATTRIBUTES:
             ET.SubElement(attributes, "Attribute", attr)
 
-        # Add region headers
+        # Add region headers and regions
         regions = ET.SubElement(annotation, "Regions")
         headers = ET.SubElement(regions, "RegionAttributeHeaders")
         for attr in REGION_ATTRIBUTE_HEADERS:
@@ -216,14 +212,14 @@ def convert_geojson_to_imagescope_xml(geojson_path, label_order):
 
             region_id += 1
 
-        ET.SubElement(annotation, "Plots")
+        ET.SubElement(annotation, "Plots")  # Required for full ImageScope compatibility
         annotation_id += 1
 
     # Output as pretty XML string
     return prettify(annotations_element)
 
 
-def process_geojson_folder(folder_path):
+def process_geojson_folder(folder_path, microns_per_pixel):
     """
     Processes all GeoJSON files in the given folder, collects labels, converts them to XML, and saves the XML files.
 
@@ -238,7 +234,7 @@ def process_geojson_folder(folder_path):
     for file_name in os.listdir(folder_path):
         if file_name.endswith('.geojson'):
             geojson_file = os.path.join(folder_path, file_name)
-            xml_output = convert_geojson_to_imagescope_xml(geojson_file, all_labels)
+            xml_output = convert_geojson_to_imagescope_xml(geojson_file, all_labels, microns_per_pixel)
             xml_file = geojson_file.replace('.geojson', '.xml')
 
             with open(xml_file, "w", encoding="utf-8") as f:
