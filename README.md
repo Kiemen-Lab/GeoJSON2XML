@@ -1,4 +1,4 @@
-# 🌍 GeoJSON2XML 🛠️
+# GeoJSON2XML 🛠️
 
 Code to transform your GeoJSON files into XML format.
 
